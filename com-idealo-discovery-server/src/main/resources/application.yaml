@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: IDEALO-DISCOVERY-SERVER
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${idealo.discovery.server.hostname}:${server.port}/eureka/
