@@ -1,9 +1,13 @@
 package com.idealo.product.mapper;
 
 import com.idealo.product.entities.ProductEntity;
+import com.idealo.product.model.AddProductRequest;
 import com.idealo.product.model.AddProductResponse;
-import com.idealo.product.model.ProductRequest;
+import com.idealo.product.model.ProductDetailResponse;
+import com.idealo.product.model.ProductShortResponse;
 import org.mapstruct.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,8 +20,16 @@ import org.mapstruct.Mapper;
  */
 @Mapper(componentModel = "spring")
 public interface ProductEntityMapper {
-    ProductEntity productEntityFromProductRequest(ProductRequest request);
+
+    ProductEntity productEntityFromAddProductRequest(AddProductRequest request);
 
     AddProductResponse addProductResponseFromProductEntity(ProductEntity entity);
 
+    ProductDetailResponse productDetailResponseFromProductEntity(ProductEntity entity);
+
+    List<ProductDetailResponse> productDetailResponseListFromProductEntityList(List<ProductEntity> entities);
+
+    ProductShortResponse productShortResponseFromProductEntity(ProductEntity entity);
+
+    List<ProductShortResponse> productShortResponseListFromProductEntityList(List<ProductEntity> entities);
 }

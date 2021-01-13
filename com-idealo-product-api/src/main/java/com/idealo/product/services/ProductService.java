@@ -2,6 +2,8 @@ package com.idealo.product.services;
 
 import com.idealo.product.entities.ProductEntity;
 
+import java.util.List;
+
 /**
  * <p>
  * This is the class for product service
@@ -13,4 +15,8 @@ import com.idealo.product.entities.ProductEntity;
  */
 public interface ProductService {
     ProductEntity save(ProductEntity productEntity);
+
+    List<ProductEntity> getAll();
+
+    List<ProductEntity> getAllBySku(List<String> skuList);
 }

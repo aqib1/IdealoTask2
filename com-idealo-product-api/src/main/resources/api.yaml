@@ -6,7 +6,7 @@ info:
   contact:
     email: aqibbutt3078@gmail.com
 paths:
-  /product/:
+  /product/add:
     post:
       tags:
         - Product Requests
@@ -42,9 +42,80 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProductRequest'
+              $ref: '#/components/schemas/AddProductRequest'
+  /product/all:
+    get:
+      tags:
+        - Product Requests
+      summary: Call for getting all active products.
+      operationId: getAll
+      description: API for support to get all products.
+      responses:
+        '200':
+          description: Items retrived successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllProductResponse'
+        '404':
+          description: 404 Error, Page Not Found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+        '417':
+          description: Expectation given in the request's Expect header could not be met.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - Product Requests
+      summary: Call for getting all active products by SKU.
+      operationId: getAllBySku
+      description: API for support to get all products by SKU.
+      responses:
+        '200':
+          description: Items retrived successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProductBySkuResponse'
+        '404':
+          description: 404 Error, Page Not Found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetProductBySkuRequest'
 components:
   schemas:
+    GetProductBySkuRequest:
+      type: object
+      properties:
+        skuList:
+          type: array
+          items:
+            type: string
+    GetAllProductResponse:
+      type: object
+      properties:
+        productDetailResponseList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDetailResponse'
+    GetProductBySkuResponse:
+      type: object
+      properties:
+        productShortResponseList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductShortResponse'
     AddProductResponse:
       properties:
         sku:
@@ -55,7 +126,7 @@ components:
           type: string
         detailMessage:
           type: string
-    ProductRequest:
+    AddProductRequest:
       required:
         - sku
         - productId
@@ -82,6 +153,8 @@ components:
           format: int32
         supplierName:
           type: string
+        isActive:
+          type: boolean
         insertedAt:
           type: string
         updatedAt:
@@ -122,6 +195,8 @@ components:
           format: int32
         supplierName:
           type: string
+        isActive:
+          type: boolean
         insertedAt:
           type: string
         updatedAt:

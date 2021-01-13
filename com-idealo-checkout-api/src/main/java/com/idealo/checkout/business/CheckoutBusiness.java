@@ -5,6 +5,7 @@ import com.idealo.checkout.model.CheckoutRequest;
 import com.idealo.checkout.model.CheckoutResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
@@ -29,6 +30,9 @@ public class CheckoutBusiness {
     private void validateCheckout(CheckoutRequest request) {
         if(Objects.isNull(request)) {
             throw new InvalidRequestException("Request cannot be null");
+        }
+        if(CollectionUtils.isEmpty(request.getSkuList())) {
+            throw new InvalidRequestException("Request [sku-list] cannot be null");
         }
     }
 }

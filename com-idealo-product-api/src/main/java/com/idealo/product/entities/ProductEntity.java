@@ -39,6 +39,8 @@ public class ProductEntity extends BaseEntity {
     private int quantity;
     @Column(name = "SUPPLIER_NAME")
     private String supplierName;
+    @Column(name = "IS_ACTIVE")
+    private Boolean isActive;
     @Column(name = "INSERTED_AT")
     private String insertedAt;
     @Column(name = "UPDATED_AT")

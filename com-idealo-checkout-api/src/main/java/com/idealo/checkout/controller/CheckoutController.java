@@ -20,11 +20,11 @@ import static com.idealo.checkout.utils.AppConst.CHECKOUT_CHECK;
  * @version 0.0.1
  * @since 01/13/2021
  */
-//@RestController(CHECKOUT_API_URI)
+@RestController(CHECKOUT_API_URI)
 public class CheckoutController {
 
-//    @PostMapping(value = CHECKOUT_CHECK)
-    public Mono<ResponseEntity<CheckoutResponse>> checkout(CheckoutRequest request){
+    @PostMapping(value = CHECKOUT_CHECK)
+    public Mono<ResponseEntity<CheckoutResponse>> checkout(@RequestBody CheckoutRequest request){
         return null;
     }
 }

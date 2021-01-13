@@ -1,17 +1,14 @@
 package com.idealo.product.controller;
 
 import com.idealo.product.business.ProductBusiness;
-import com.idealo.product.model.AddProductResponse;
-import com.idealo.product.model.ProductRequest;
+import com.idealo.product.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static com.idealo.product.utils.AppConst.PRODUCT_API_URI;
+import static com.idealo.product.utils.AppConst.*;
 
 /**
  * <p>
@@ -29,8 +26,19 @@ public class ProductController {
     @Autowired
     private ProductBusiness productBusiness;
 
-    @PostMapping
-    public Mono<ResponseEntity<AddProductResponse>> addProduct(@RequestBody ProductRequest request) {
-     return productBusiness.addProduct(request);
+    @PostMapping(PRODUCT_ADD)
+    public Mono<ResponseEntity<AddProductResponse>> addProduct(@RequestBody AddProductRequest request) {
+        return productBusiness.addProduct(request);
     }
+
+    @GetMapping(PRODUCT_GET_ALL)
+    public Mono<ResponseEntity<GetAllProductResponse>> getAll() {
+        return productBusiness.getAll();
+    }
+
+    @PostMapping(PRODUCT_GET_ALL)
+    public Mono<ResponseEntity<GetProductBySkuResponse>> getAllBySku(@RequestBody GetProductBySkuRequest request) {
+        return productBusiness.getAllBySku(request);
+    }
+
 }

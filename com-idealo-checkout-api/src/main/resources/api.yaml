@@ -47,15 +47,15 @@ components:
   schemas:
     CheckoutRequest:
       type: object
-      required:
-        - sku
       properties:
-        sku:
-          type: string
+        skuList:
+          type: array
+          items:
+            type: string
     CheckoutResponse:
       required:
         - total
-        - detailItemsResponse
+        - productShortResponse
       type: object
       properties:
         total:
@@ -105,6 +105,13 @@ components:
           type: string
         updatedAt:
           type: string
+    GetProductBySkuResponse:
+      type: object
+      properties:
+        productShortResponseList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductShortResponse'
     ResponseError:
       type: object
       properties:
