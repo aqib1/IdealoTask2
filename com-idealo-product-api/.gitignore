@@ -1,0 +1,5 @@
+/.idea/*
+com-idealo-product-api.iml
+/target/*
+/IdealoProducts/*
+derby.log

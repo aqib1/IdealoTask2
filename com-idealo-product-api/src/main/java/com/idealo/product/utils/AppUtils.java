@@ -1,4 +1,4 @@
-package com.idealo.checkout.utils;
+package com.idealo.product.utils;
 /**
  * <p>
  * This is the class for checkout application utilities

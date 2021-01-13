@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 import static com.idealo.checkout.utils.AppConst.CHECKOUT_API_URI;
+import static com.idealo.checkout.utils.AppConst.CHECKOUT_CHECK;
 
 /**
  * <p>
@@ -19,10 +20,10 @@ import static com.idealo.checkout.utils.AppConst.CHECKOUT_API_URI;
  * @version 0.0.1
  * @since 01/13/2021
  */
-@RestController(CHECKOUT_API_URI)
+//@RestController(CHECKOUT_API_URI)
 public class CheckoutController {
 
-    @PostMapping
+//    @PostMapping(value = CHECKOUT_CHECK)
     public Mono<ResponseEntity<CheckoutResponse>> checkout(CheckoutRequest request){
         return null;
     }

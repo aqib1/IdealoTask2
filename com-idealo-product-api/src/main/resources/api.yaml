@@ -1,33 +1,33 @@
 openapi: 3.0.0
 info:
-  description: Checkout API Designed By IDEALO
+  description: Product API Designed By IDEALO
   version: "0.0.1.RELEASE"
-  title: Checkout API
+  title: Product API
   contact:
     email: aqibbutt3078@gmail.com
 paths:
-  /checkout/:
+  /product/:
     post:
       tags:
-        - Checkout Requests
-      summary: Call for checking out SKU.
-      operationId: checkout
-      description: API for support to checkout all SKU.
+        - Product Requests
+      summary: Call for inserting a new product.
+      operationId: addProduct
+      description: API for support to add a new product.
       responses:
         '200':
-          description: Items checkout successfully
+          description: Item inserted successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CheckoutResponse'
+                $ref: '#/components/schemas/AddProductResponse'
         '400':
-          description: Invalid checkout, Bad Request.
+          description: Invalid insert, Bad Request.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-        '403':
-          description: Items not exists for checkout.
+        '407':
+          description: duplicate product, Cannot insert.
           content:
             application/json:
               schema:
@@ -42,29 +42,50 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CheckoutRequest'
+              $ref: '#/components/schemas/ProductRequest'
 components:
   schemas:
-    CheckoutRequest:
-      type: object
-      required:
-        - sku
+    AddProductResponse:
       properties:
         sku:
           type: string
-    CheckoutResponse:
+        productId:
+          type: string
+        productName:
+          type: string
+        detailMessage:
+          type: string
+    ProductRequest:
       required:
-        - total
-        - detailItemsResponse
+        - sku
+        - productId
+        - productName
+        - unitPrice
+        - quantity
       type: object
       properties:
-        total:
+        sku:
+          type: string
+        productId:
+          type: string
+        productName:
+          type: string
+        madeIn:
+          type: string
+        brand:
+          type: string
+        unitPrice:
           type: integer
-          format: int64
-        productShortResponse:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductShortResponse'
+          format: int32
+        quantity:
+          type: integer
+          format: int32
+        supplierName:
+          type: string
+        insertedAt:
+          type: string
+        updatedAt:
+          type: string
     ProductShortResponse:
       type: object
       properties:

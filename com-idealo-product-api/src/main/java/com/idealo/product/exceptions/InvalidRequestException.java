@@ -1,4 +1,4 @@
-package com.idealo.checkout.exceptions;
+package com.idealo.product.exceptions;
 /**
  * <p>
  * This is the custom exception class for invalid request

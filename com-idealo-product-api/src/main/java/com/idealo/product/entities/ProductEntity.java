@@ -1,10 +1,19 @@
-package com.idealo.checkout.entities;
+package com.idealo.product.entities;
 
-import com.idealo.checkout.data.BaseEntity;
+import com.idealo.product.data.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
 
+/**
+ * <p>
+ * This is the class for idealo product entity details
+ * </p>
+ *
+ * @author Aqib
+ * @version 0.0.1
+ * @since 01/13/2021
+ */
 @ToString
 @Getter
 @Setter
@@ -15,7 +24,7 @@ public class ProductEntity extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "STOCK_KEEPING_UNITS", unique = true, nullable = false)
-    private String SKU;
+    private String sku;
     @Column(name = "PRODUCT_ID", unique = true, nullable = false)
     private String productId;
     @Column(name = "PRODUCT_NAME", nullable = false)
