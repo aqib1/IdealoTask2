@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: IDEALO-CHECKOUT-SERVICE
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:${idealo.discovery.server.defaultZone}}

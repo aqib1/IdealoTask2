@@ -1,0 +1,175 @@
+openapi: 3.0.0
+info:
+  description: Checkout API Designed By IDEALO
+  version: "0.0.1.RELEASE"
+  title: Checkout API
+  contact:
+    email: aqibbutt3078@gmail.com
+paths:
+  /checkout/:
+    post:
+      tags:
+        - Checkout Requests
+      summary: Call for checking out SKU.
+      operationId: checkout
+      description: API for support to checkout all SKU.
+      responses:
+        '200':
+          description: Items checkout successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutResponse'
+        '400':
+          description: Invalid checkout, Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+        '403':
+          description: Items not exists for checkout.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+        '417':
+          description: Expectation given in the request's Expect header could not be met.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequest'
+  /product/:
+    post:
+      tags:
+        - Product Requests
+      summary: Call for inserting a new product.
+      operationId: addProduct
+      description: API for support to add a new product.
+      responses:
+        '200':
+          description: Item inserted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddProductResponse'
+        '400':
+          description: Invalid insert, Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+        '407':
+          description: duplicate product, Cannot insert.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+        '417':
+          description: Expectation given in the request's Expect header could not be met.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+components:
+  schemas:
+    AddProductResponse:
+      properties:
+        SKU:
+          type: string
+        productId:
+          type: string
+        productName:
+          type: string
+        detailMessage:
+          type: string
+    ProductRequest:
+      required:
+        - SKU
+        - productId
+        - productName
+        - unitPrice
+        - quantity
+      type: object
+      properties:
+        SKU:
+          type: string
+        productId:
+          type: string
+        productName:
+          type: string
+        madeIn:
+          type: string
+        brand:
+          type: string
+        unitPrice:
+          type: integer
+          format: int32
+        quantity:
+          type: integer
+          format: int32
+        supplierName:
+          type: string
+        insertedAt:
+          type: string
+        updatedAt:
+          type: string
+    CheckoutRequest:
+      type: object
+      required:
+        - SKU
+      properties:
+        SKU:
+          type: string
+    CheckoutResponse:
+      required:
+        - total
+        - detailItemsResponse
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+        detailItemsResponse:
+          type: array
+          items:
+            $ref: '#/components/schemas/DetailItemResponse'
+    DetailItemResponse:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        purchased:
+          type: integer
+          format: int32
+        unitPrice:
+          type: integer
+          format: int32
+        discount:
+          type: boolean
+        detailedMessage:
+          type: string
+    ResponseError:
+      type: object
+      properties:
+        errorCode:
+          type: integer
+        errorMessage:
+          type: string
+        detailedMessage:
+          type: string
+        exceptionName:
+          type: string
+        createdAt:
+          type: string
