@@ -46,7 +46,7 @@ public class RuleBusiness {
         );
     }
 
-    public GetRulesResponse getAllSku(GetRulesBySkuRequest request) {
+    public GetRulesResponse getBySku(GetRulesBySkuRequest request) {
         validateGetRulesBySkuRequest(request);
         return new GetRulesResponse().ruleInfos(
                 ruleInfoMapper.toRuleInfoList(ruleService.getAll(request.getSkuList())));

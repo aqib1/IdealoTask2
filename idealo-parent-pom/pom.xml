@@ -16,6 +16,7 @@
         <swagger.annotations.version>2.0.24</swagger.annotations.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
         <open.api.version>4.3.1</open.api.version>
+        <open.pojo.version>0.8.3</open.pojo.version>
     </properties>
 
     <parent>
@@ -39,6 +40,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.openpojo</groupId>
+            <artifactId>openpojo</artifactId>
+            <version>${open.pojo.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

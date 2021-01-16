@@ -32,7 +32,7 @@ public class RuleController {
 
     @PostMapping(PRICING_RULE_GET_ALL_URL)
     public ResponseEntity<GetRulesResponse> getBySku(@RequestBody GetRulesBySkuRequest request) {
-        return ResponseEntity.ok(business.getAllSku(request));
+        return ResponseEntity.ok(business.getBySku(request));
     }
 
     @PostMapping(PRICING_RULE_DROP_ALL_URL)
