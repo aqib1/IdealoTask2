@@ -19,7 +19,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CheckoutResponse'
+                $ref: '#/components/schemas/RuleResponse'
         '400':
           description: Invalid checkout, Bad Request.
           content:
@@ -48,20 +48,72 @@ components:
     CheckoutRequest:
       type: object
       properties:
-        skuList:
+        checkoutInfo:
           type: array
           items:
-            type: string
-    CheckoutResponse:
-      required:
-        - total
-        - productShortResponse
+            $ref: '#/components/schemas/CheckoutInfo'
+    CheckoutInfo:
+      type: object
+      properties:
+        sku:
+          type: string
+        checkoutQuantity:
+          type: integer
+          format: int64
+    RuleResponse:
       type: object
       properties:
         total:
           type: integer
           format: int64
-        productShortResponse:
+        ruleInfoResponse:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleInfoResponse'
+    RuleInfoResponse:
+      type: object
+      properties:
+        sku:
+          type: string
+        checkoutQuantity:
+          type: integer
+          format: int64
+        unitPrice:
+          type: integer
+          format: int64
+        shipping:
+          type: integer
+          format: int64
+        specialPrice:
+          type: integer
+          format: int64
+        detailedMessage:
+          type: string
+    RuleRequest:
+      type: object
+      properties:
+        ruleInfoRequest:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleInfoRequest'
+    RuleInfoRequest:
+      type: object
+      properties:
+        sku:
+          type: string
+        unitPrice:
+          type: integer
+          format: int64
+        shipping:
+          type: integer
+          format: int64
+        checkoutQuantity:
+          type: integer
+          format: int64
+    GetProductBySkuResponse:
+      type: object
+      properties:
+        productShortResponseList:
           type: array
           items:
             $ref: '#/components/schemas/ProductShortResponse'
@@ -74,44 +126,15 @@ components:
           type: string
         quantity:
           type: integer
-          format: int32
+          format: int64
         unitPrice:
           type: integer
-          format: int32
+          format: int64
+        shipping:
+          type: integer
+          format: int64
         detailedMessage:
           type: string
-    ProductDetailResponse:
-      type: object
-      properties:
-        sku:
-          type: string
-        productId:
-          type: string
-        productName:
-          type: string
-        madeIn:
-          type: string
-        brand:
-          type: string
-        unitPrice:
-          type: integer
-          format: int32
-        quantity:
-          type: integer
-          format: int32
-        supplierName:
-          type: string
-        insertedAt:
-          type: string
-        updatedAt:
-          type: string
-    GetProductBySkuResponse:
-      type: object
-      properties:
-        productShortResponseList:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductShortResponse'
     ResponseError:
       type: object
       properties:

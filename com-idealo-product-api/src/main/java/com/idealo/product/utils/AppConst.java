@@ -12,6 +12,7 @@ public class AppConst {
     public static final String PRODUCT_API_URI = "/product";
     public static final String PRODUCT_ADD = "/add";
     public static final String PRODUCT_GET_ALL = "/all";
+    public static final String PRODUCT_DROP_ALL = "/drop";
 
 
     public static final String SPEC_PRODUCT_IS_ACTIVE_COL = "isActive";

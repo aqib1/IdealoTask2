@@ -1,7 +1,6 @@
 package com.idealo.product.services;
 
 import com.idealo.product.entities.ProductEntity;
-
 import java.util.List;
 
 /**
@@ -19,4 +18,6 @@ public interface ProductService {
     List<ProductEntity> getAll();
 
     List<ProductEntity> getAllBySku(List<String> skuList);
+
+    void dropAll(List<String> skuList);
 }

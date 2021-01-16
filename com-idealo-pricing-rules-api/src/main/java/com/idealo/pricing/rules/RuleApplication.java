@@ -15,9 +15,9 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  */
 @SpringBootApplication
 @EnableEurekaClient
-public class PricingRulesApplication {
+public class RuleApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PricingRulesApplication.class, args);
+        SpringApplication.run(RuleApplication.class, args);
     }
 }

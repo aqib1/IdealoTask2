@@ -21,15 +21,15 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ProductEntityMapper {
 
-    ProductEntity productEntityFromAddProductRequest(AddProductRequest request);
+    ProductEntity toProductEntity(AddProductRequest request);
 
-    AddProductResponse addProductResponseFromProductEntity(ProductEntity entity);
+    AddProductResponse toAddProductResponse(ProductEntity entity);
 
-    ProductDetailResponse productDetailResponseFromProductEntity(ProductEntity entity);
+    ProductDetailResponse toProductDetailResponse(ProductEntity entity);
 
-    List<ProductDetailResponse> productDetailResponseListFromProductEntityList(List<ProductEntity> entities);
+    List<ProductDetailResponse> toProductDetailResponseList(List<ProductEntity> entities);
 
-    ProductShortResponse productShortResponseFromProductEntity(ProductEntity entity);
+    ProductShortResponse toProductShortResponse(ProductEntity entity);
 
-    List<ProductShortResponse> productShortResponseListFromProductEntityList(List<ProductEntity> entities);
+    List<ProductShortResponse> toProductShortResponse(List<ProductEntity> entities);
 }

@@ -2,10 +2,9 @@ package com.idealo.checkout;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * <p>
@@ -17,16 +16,12 @@ import org.springframework.web.reactive.function.client.WebClient;
  * @since 01/13/2021
  */
 @SpringBootApplication
+@EnableFeignClients
+@EnableCircuitBreaker
 @EnableEurekaClient
-public class CheckoutServiceApplication {
-
-    @Bean
-    @LoadBalanced
-    public WebClient.Builder loadBalancedWebClientBuilder() {
-        return WebClient.builder();
-    }
+public class CheckoutApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CheckoutServiceApplication.class, args);
+        SpringApplication.run(CheckoutApplication.class, args);
     }
 }

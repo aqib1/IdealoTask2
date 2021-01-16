@@ -7,9 +7,46 @@
     <artifactId>com-idealo-pricing-rules-api</artifactId>
     <version>0.0.1.RELEASE</version>
     <parent>
-        <groupId>org.idealo.reactive.parent</groupId>
-        <artifactId>idealo-reactive-parent-pom</artifactId>
+        <groupId>org.idealo.parent</groupId>
+        <artifactId>idealo-parent-pom</artifactId>
         <version>0.0.1.RELEASE</version>
-        <relativePath>../idealo-reactive-parent-pom/pom.xml</relativePath> <!-- lookup parent from repository -->
+        <relativePath>../idealo-parent-pom/pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
+    <dependencies>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${open.api.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
+                            <generatorName>java</generatorName>
+                            <generateApis>false</generateApis>
+                            <generateModels>true</generateModels>
+                            <generateModelDocumentation>false</generateModelDocumentation>
+                            <generateModelTests>false</generateModelTests>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <modelPackage>com.idealo.pricing.rules.model</modelPackage>
+                            <configOptions>
+                                <sourceFolder>swagger</sourceFolder>
+                            </configOptions>
+                            <output>target/generated-sources</output>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

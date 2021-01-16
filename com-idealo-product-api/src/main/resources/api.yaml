@@ -92,16 +92,54 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/GetProductBySkuRequest'
+              $ref: '#/components/schemas/CheckoutRequest'
+
+  /product/drop:
+    post:
+      tags:
+        - Product Requests
+      summary: Call for droping all provided products.
+      operationId: dropAll
+      description: API for support to drop all provided products.
+      responses:
+        '200':
+          description: Items droped successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DropProductsResponse'
+        '404':
+          description: 404 Error, Page Not Found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+        '417':
+          description: Expectation given in the request's Expect header could not be met.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DropProductsRequest'
+
 components:
   schemas:
-    GetProductBySkuRequest:
+    DropProductsRequest:
       type: object
       properties:
         skuList:
           type: array
           items:
             type: string
+    DropProductsResponse:
+      type: object
+      properties:
+        detailMessage:
+          type: string
     GetAllProductResponse:
       type: object
       properties:
@@ -147,18 +185,14 @@ components:
           type: string
         unitPrice:
           type: integer
-          format: int32
+          format: int64
         quantity:
           type: integer
-          format: int32
+          format: int64
         supplierName:
           type: string
         isActive:
           type: boolean
-        insertedAt:
-          type: string
-        updatedAt:
-          type: string
     ProductShortResponse:
       type: object
       properties:
@@ -168,10 +202,13 @@ components:
           type: string
         quantity:
           type: integer
-          format: int32
+          format: int64
         unitPrice:
           type: integer
-          format: int32
+          format: int64
+        shipping:
+          type: integer
+          format: int64
         detailedMessage:
           type: string
     ProductDetailResponse:
@@ -189,18 +226,17 @@ components:
           type: string
         unitPrice:
           type: integer
-          format: int32
+          format: int64
+        shipping:
+          type: integer
+          format: int64
         quantity:
           type: integer
-          format: int32
+          format: int64
         supplierName:
           type: string
         isActive:
           type: boolean
-        insertedAt:
-          type: string
-        updatedAt:
-          type: string
     ResponseError:
       type: object
       properties:
@@ -214,3 +250,18 @@ components:
           type: string
         createdAt:
           type: string
+    CheckoutRequest:
+      type: object
+      properties:
+        checkoutInfo:
+          type: array
+          items:
+            $ref: '#/components/schemas/CheckoutInfo'
+    CheckoutInfo:
+      type: object
+      properties:
+        sku:
+          type: string
+        checkoutQuantity:
+          type: integer
+          format: int64

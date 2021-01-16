@@ -34,15 +34,13 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "BRAND")
     private String brand;
     @Column(name = "UNIT_PRICE", nullable = false)
-    private int unitPrice;
+    private Long unitPrice;
     @Column(name = "QUANTITY", nullable = false)
-    private int quantity;
+    private Long quantity;
+    @Column(name = "SHIPPING")
+    private Long shipping;
     @Column(name = "SUPPLIER_NAME")
     private String supplierName;
     @Column(name = "IS_ACTIVE")
     private Boolean isActive;
-    @Column(name = "INSERTED_AT")
-    private String insertedAt;
-    @Column(name = "UPDATED_AT")
-    private String updatedAt;
 }

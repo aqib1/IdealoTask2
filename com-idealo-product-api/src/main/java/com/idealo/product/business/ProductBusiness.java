@@ -3,19 +3,21 @@ package com.idealo.product.business;
 import com.idealo.product.entities.ProductEntity;
 import com.idealo.product.exceptions.InvalidProductException;
 import com.idealo.product.exceptions.InvalidRequestException;
+import com.idealo.product.exceptions.StockOutOfBoundException;
 import com.idealo.product.mapper.ProductEntityMapper;
 import com.idealo.product.model.*;
 import com.idealo.product.services.Impl.ProductServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import reactor.core.publisher.Mono;
-
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import static com.idealo.product.utils.AppUtils.skuByQuantity;
+import static com.idealo.product.utils.AppUtils.skuByQuantityForCheckout;
 
 /**
  * <p>
@@ -39,28 +41,56 @@ public class ProductBusiness {
     @Value("${product.save.success.detail.message}")
     private String saveSuccessDetailMessage;
 
-    public Mono<ResponseEntity<AddProductResponse>> addProduct(AddProductRequest request) {
+    public AddProductResponse addProduct(AddProductRequest request) {
         validateProductRequest(request);
         ProductEntity productEntity = service
-                .save(mapper.productEntityFromAddProductRequest(request));
-        AddProductResponse response = mapper
-                .addProductResponseFromProductEntity(productEntity);
-        response.detailMessage(saveSuccessDetailMessage);
-        return Mono.just(ResponseEntity.ok(response));
+                .save(mapper.toProductEntity(request));
+        return mapper
+                .toAddProductResponse(productEntity)
+                .detailMessage(saveSuccessDetailMessage);
     }
 
-    public Mono<ResponseEntity<GetAllProductResponse>> getAll() {
-        return Mono.just(ResponseEntity.ok(new GetAllProductResponse()
+    public GetAllProductResponse getAll() {
+        return new GetAllProductResponse()
                 .productDetailResponseList(mapper
-                        .productDetailResponseListFromProductEntityList(service.getAll()))));
+                        .toProductDetailResponseList(service.getAll()));
     }
 
-    public Mono<ResponseEntity<GetProductBySkuResponse>> getAllBySku(GetProductBySkuRequest request) {
+    public GetProductBySkuResponse getAllBySku(CheckoutRequest request) {
         validateGetProductBySkuRequest(request);
-        return Mono.just(ResponseEntity.ok(new GetProductBySkuResponse()
-                .productShortResponseList(mapper
-                        .productShortResponseListFromProductEntityList(service
-                                .getAllBySku(request.getSkuList())))));
+        List<ProductShortResponse> productShortResponseList = mapper.toProductShortResponse(service
+                .getAllBySku(request.getCheckoutInfo()
+                        .stream().map(CheckoutInfo::getSku).collect(Collectors.toList())));
+        verifyOutOfStockProducts(request.getCheckoutInfo(), productShortResponseList);
+        return new GetProductBySkuResponse()
+                .productShortResponseList(productShortResponseList);
+    }
+
+    public DropProductsResponse dropAll(DropProductsRequest request) {
+        validateDropProductsRequest(request);
+        service.dropAll(request.getSkuList());
+        return new DropProductsResponse()
+                .detailMessage("Products dropped successfully");
+    }
+
+    private void validateDropProductsRequest(DropProductsRequest request) {
+        if(Objects.isNull(request)) {
+            throw new InvalidRequestException("Request cannot be null");
+        }
+        if(CollectionUtils.isEmpty(request.getSkuList())) {
+            throw new InvalidProductException("Request [sku] list cannot be empty or null");
+        }
+    }
+
+    private void verifyOutOfStockProducts(List<CheckoutInfo> checkoutDetails, List<ProductShortResponse> productShortResponseList) {
+        Map<String, Long> skuByQuantity = skuByQuantity(productShortResponseList);
+        Map<String, Long> skuByQuantityForCheckout = skuByQuantityForCheckout(checkoutDetails);
+        skuByQuantityForCheckout.keySet().stream().forEach(key -> {
+            if (skuByQuantity.containsKey(key) && (skuByQuantity.get(key) < skuByQuantityForCheckout.get(key))) {
+                throw new StockOutOfBoundException(
+                        String.format("Stock for sku %s, have %d while requested %d",
+                                key, skuByQuantity.get(key), skuByQuantityForCheckout.get(key)));
+            }});
     }
 
     private void validateProductRequest(AddProductRequest request) {
@@ -84,12 +114,12 @@ public class ProductBusiness {
         }
     }
 
-    private void validateGetProductBySkuRequest(GetProductBySkuRequest request) {
+    private void validateGetProductBySkuRequest(CheckoutRequest request) {
         if (Objects.isNull(request)) {
             throw new InvalidRequestException("Request cannot be null");
         }
-        if (CollectionUtils.isEmpty(request.getSkuList())) {
-            throw new InvalidRequestException("Request [skuList] cannot be null");
+        if (CollectionUtils.isEmpty(request.getCheckoutInfo())) {
+            throw new InvalidRequestException("Request [checkoutInfo] cannot be null");
         }
     }
 }

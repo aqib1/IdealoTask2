@@ -1,32 +1,57 @@
 package com.idealo.checkout.service.Impl;
 
 import com.google.common.collect.Lists;
-import com.idealo.checkout.model.CheckoutRequest;
-import com.idealo.checkout.model.CheckoutResponse;
+import com.idealo.checkout.clients.ProductClient;
+import com.idealo.checkout.clients.RuleInfoClient;
+import com.idealo.checkout.mappers.RuleInfoMapper;
+import com.idealo.checkout.model.*;
 import com.idealo.checkout.service.CheckoutService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import static com.idealo.checkout.utils.AppUtils.listToMapByCount;
 
+import static com.idealo.checkout.utils.AppUtils.skuToCheckoutInfo;
+import static com.idealo.checkout.utils.AppUtils.skuToRuleInfoRequest;
+
+@Service
 public class CheckoutServiceImpl implements CheckoutService {
 
     @Autowired
-    private WebClient.Builder webClient;
+    private ProductClient productClient;
+
+    @Autowired
+    private RuleInfoClient ruleInfoClient;
+
+    @Autowired
+    private RuleInfoMapper mapper;
 
     @Override
-    public CheckoutResponse checkout(CheckoutRequest request) {
-      Map<String, Long> skuByCount = listToMapByCount(request.getSkuList());
-      // For non repeated values
-      request.setSkuList(Lists.newArrayList(skuByCount.keySet()));
-      getAllProductsBySku(request);
-      return null;
+    public RuleResponse checkout(CheckoutRequest request) {
+        Map<String, RuleInfoRequest> skuToRuleInfoRequest = skuToRuleInfoRequest(mapper.toRuleInfoRequestList(
+                getProductsBySku(request).getProductShortResponseList()
+        ));
+        updateCheckoutQuantity(skuToRuleInfoRequest, request);
+        return requestPricing(new RuleRequest().ruleInfoRequest(
+                Lists.newArrayList(skuToRuleInfoRequest.values())
+        ));
     }
 
-    private void getAllProductsBySku(CheckoutRequest request) {
+    private void updateCheckoutQuantity(Map<String, RuleInfoRequest> skuToRuleInfoRequest, CheckoutRequest request) {
+        Map<String, CheckoutInfo> skuToCheckoutInfo = skuToCheckoutInfo(request.getCheckoutInfo());
+        skuToCheckoutInfo.keySet().forEach(checkoutSku -> {
+            if (skuToRuleInfoRequest.containsKey(checkoutSku)) {
+                skuToRuleInfoRequest.get(checkoutSku).setCheckoutQuantity(
+                        skuToCheckoutInfo.get(checkoutSku).getCheckoutQuantity());
+            }
+        });
+    }
 
+    public RuleResponse requestPricing(RuleRequest request) {
+        return ruleInfoClient.pricingRules(request);
+    }
+
+    public GetProductBySkuResponse getProductsBySku(CheckoutRequest request) {
+        return productClient.getAllBySku(request);
     }
 }

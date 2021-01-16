@@ -5,8 +5,6 @@ import com.idealo.product.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import static com.idealo.product.utils.AppConst.*;
 
@@ -27,18 +25,24 @@ public class ProductController {
     private ProductBusiness productBusiness;
 
     @PostMapping(PRODUCT_ADD)
-    public Mono<ResponseEntity<AddProductResponse>> addProduct(@RequestBody AddProductRequest request) {
-        return productBusiness.addProduct(request);
+    public ResponseEntity<AddProductResponse> addProduct(@RequestBody AddProductRequest request) {
+        return ResponseEntity.ok(productBusiness.addProduct(request));
     }
 
     @GetMapping(PRODUCT_GET_ALL)
-    public Mono<ResponseEntity<GetAllProductResponse>> getAll() {
-        return productBusiness.getAll();
+    public ResponseEntity<GetAllProductResponse> getAll() {
+        return ResponseEntity.ok(productBusiness.getAll());
     }
 
     @PostMapping(PRODUCT_GET_ALL)
-    public Mono<ResponseEntity<GetProductBySkuResponse>> getAllBySku(@RequestBody GetProductBySkuRequest request) {
-        return productBusiness.getAllBySku(request);
+    public ResponseEntity<GetProductBySkuResponse> getAllBySku(@RequestBody CheckoutRequest request) {
+        return ResponseEntity.ok(productBusiness.getAllBySku(request));
+    }
+
+
+    @PostMapping(PRODUCT_DROP_ALL)
+    public ResponseEntity<DropProductsResponse> dropAll(@RequestBody DropProductsRequest request) {
+        return ResponseEntity.ok(productBusiness.dropAll(request));
     }
 
 }

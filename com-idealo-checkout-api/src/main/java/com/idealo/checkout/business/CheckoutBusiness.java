@@ -1,14 +1,16 @@
 package com.idealo.checkout.business;
 
-import com.idealo.checkout.exceptions.InvalidRequestException;
+import com.idealo.checkout.exception.InvalidRequestException;
 import com.idealo.checkout.model.CheckoutRequest;
-import com.idealo.checkout.model.CheckoutResponse;
-import org.springframework.http.ResponseEntity;
+import com.idealo.checkout.model.RuleResponse;
+import com.idealo.checkout.service.Impl.CheckoutServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import reactor.core.publisher.Mono;
 
 import java.util.Objects;
+
+
 /**
  * <p>
  * This is the class for idealo checkout business
@@ -21,18 +23,20 @@ import java.util.Objects;
 
 @Component
 public class CheckoutBusiness {
+    @Autowired
+    private CheckoutServiceImpl service;
 
-    public Mono<ResponseEntity<CheckoutResponse>> checkout(CheckoutRequest request){
+    public RuleResponse checkout(CheckoutRequest request) {
         validateCheckout(request);
-        return null;
+        return  service.checkout(request);
     }
 
     private void validateCheckout(CheckoutRequest request) {
-        if(Objects.isNull(request)) {
+        if (Objects.isNull(request)) {
             throw new InvalidRequestException("Request cannot be null");
         }
-        if(CollectionUtils.isEmpty(request.getSkuList())) {
-            throw new InvalidRequestException("Request [sku-list] cannot be null");
+        if (CollectionUtils.isEmpty(request.getCheckoutInfo())) {
+            throw new InvalidRequestException("Request [checkoutInfo] cannot be empty");
         }
     }
 }

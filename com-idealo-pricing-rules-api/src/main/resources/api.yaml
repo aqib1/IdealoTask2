@@ -1,0 +1,276 @@
+openapi: 3.0.0
+info:
+  description: Pricing Rules API Designed By IDEALO
+  version: "0.0.1.RELEASE"
+  title: Pricing Rules API
+  contact:
+    email: aqibbutt3078@gmail.com
+paths:
+  /pricing/add:
+    post:
+      tags:
+        - Pricing Rules Requests
+      summary: Call for adding pricing rules.
+      operationId: addRules
+      description: API for support to add pricing rule.
+      responses:
+        '200':
+          description: Pricing rule added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddRuleResponse'
+        '400':
+          description: Invalid request, Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+        '417':
+          description: Expectation given in the request's Expect header could not be met.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddRuleRequest'
+  /pricing/rule:
+    post:
+      tags:
+        - Pricing Rules Requests
+      summary: Call for performing pricing rules of SKU.
+      operationId: pricingRules
+      description: API for support to pricing rules of SKU.
+      responses:
+        '200':
+          description: Items applied rule successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleResponse'
+        '400':
+          description: Invalid request, Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+        '417':
+          description: Expectation given in the request's Expect header could not be met.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleRequest'
+  /pricing/all:
+    get:
+      tags:
+        - Pricing Rules Requests
+      summary: Call for getting all pricing rules.
+      operationId: getAll
+      description: API for support to get all pricing rules.
+      responses:
+        '200':
+          description: All rules fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRulesResponse'
+        '400':
+          description: Invalid request, Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+        '417':
+          description: Expectation given in the request's Expect header could not be met.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - Pricing Rules Requests
+      summary: Call for getting pricing rules by sku list.
+      operationId: getBySku
+      description: API for support to get pricing rules from given sku list.
+      responses:
+        '200':
+          description: All rules fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRulesResponse'
+        '400':
+          description: Invalid request, Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+        '417':
+          description: Expectation given in the request's Expect header could not be met.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetRulesBySkuRequest'
+  /pricing/drop:
+    post:
+      tags:
+        - Pricing Rules Requests
+      summary: Call for droping all rules by given sku list.
+      operationId: dropAll
+      description: API for support to droping rules by sku.
+      responses:
+        '200':
+          description: All rules droped successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DropRulesResponse'
+        '400':
+          description: Invalid request, Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+        '417':
+          description: Expectation given in the request's Expect header could not be met.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DropRulesRequest'
+
+components:
+  schemas:
+    DropRulesRequest:
+      type : object
+      properties:
+        skuList:
+          type: array
+          items:
+            type: string
+    DropRulesResponse:
+      type: object
+      properties:
+        detailMessage:
+          type: string
+    GetRulesBySkuRequest:
+      type : object
+      properties:
+        skuList:
+          type: array
+          items:
+            type: string
+    GetRulesResponse:
+      type: object
+      properties:
+        ruleInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleInfo'
+    AddRuleRequest:
+      type: object
+      properties:
+        ruleInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleInfo'
+    RuleInfo:
+      type: object
+      properties:
+        sku:
+          type: string
+        itemsFromApply:
+          type: integer
+          format: int64
+        discount:
+          type: integer
+          format: int64
+        ruleType:
+          type: string
+        isActive:
+          type: boolean
+    AddRuleResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    RuleResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+        ruleInfoResponse:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleInfoResponse'
+    RuleInfoResponse:
+      type: object
+      properties:
+        sku:
+          type: string
+        checkoutQuantity:
+          type: integer
+          format: int64
+        unitPrice:
+          type: integer
+          format: int64
+        shipping:
+          type: integer
+          format: int64
+        specialPrice:
+          type: integer
+          format: int64
+        detailedMessage:
+          type: string
+    RuleRequest:
+      type: object
+      properties:
+        ruleInfoRequest:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleInfoRequest'
+    RuleInfoRequest:
+      type: object
+      properties:
+        sku:
+          type: string
+        unitPrice:
+          type: integer
+          format: int64
+        shipping:
+          type: integer
+          format: int64
+        checkoutQuantity:
+          type: integer
+          format: int64
+    ResponseError:
+      type: object
+      properties:
+        errorCode:
+          type: integer
+        errorMessage:
+          type: string
+        detailedMessage:
+          type: string
+        exceptionName:
+          type: string
+        createdAt:
+          type: string

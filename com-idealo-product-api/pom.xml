@@ -8,11 +8,18 @@
     <artifactId>com-idealo-product-api</artifactId>
     <version>0.0.1.RELEASE</version>
     <parent>
-        <groupId>org.idealo.reactive.parent</groupId>
-        <artifactId>idealo-reactive-parent-pom</artifactId>
+        <groupId>org.idealo.parent</groupId>
+        <artifactId>idealo-parent-pom</artifactId>
         <version>0.0.1.RELEASE</version>
-        <relativePath>../idealo-reactive-parent-pom/pom.xml</relativePath> <!-- lookup parent from repository -->
+        <relativePath>../idealo-parent-pom/pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
     <build>
     <plugins>
         <plugin>

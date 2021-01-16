@@ -1,5 +1,8 @@
 package com.idealo.checkout.utils;
 
+import com.idealo.checkout.model.CheckoutInfo;
+import com.idealo.checkout.model.RuleInfoRequest;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,7 +18,11 @@ import java.util.stream.Collectors;
  */
 public class AppUtils {
 
-    public static Map<String, Long> listToMapByCount(List<String> values){
-        return values.stream().collect(Collectors.groupingBy(s -> s, Collectors.counting()));
+    public static Map<String, CheckoutInfo> skuToCheckoutInfo(List<CheckoutInfo> values) {
+        return values.stream().collect(Collectors.toMap(CheckoutInfo::getSku, info -> info));
+    }
+
+    public static Map<String, RuleInfoRequest> skuToRuleInfoRequest(List<RuleInfoRequest> ruleInfoRequests) {
+        return ruleInfoRequests.stream().collect(Collectors.toMap(RuleInfoRequest::getSku, response -> response));
     }
 }

@@ -5,9 +5,7 @@ import com.idealo.product.repositories.ProductRepository;
 import com.idealo.product.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-
 import static com.idealo.product.repositories.specifications.ProductSpecifications.bySkuSpecification;
 import static com.idealo.product.repositories.specifications.ProductSpecifications.isActiveSpecification;
 
@@ -39,5 +37,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductEntity> getAllBySku(List<String> skuList) {
         return repository.findAll(bySkuSpecification(skuList));
+    }
+
+    @Override
+    public void dropAll(List<String> skuList) {
+        repository.dropAll(skuList);
     }
 }

@@ -1,8 +1,14 @@
 spring:
   application:
     name: IDEALO-CHECKOUT-SERVICE
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
 eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URI:${idealo.discovery.server.defaultZone}}
+feign:
+  hystrix:
+    enabled: true
