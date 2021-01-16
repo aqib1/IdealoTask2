@@ -7,11 +7,17 @@
     <artifactId>com-idealo-checkout-api</artifactId>
     <version>0.0.1.RELEASE</version>
     <parent>
-        <groupId>org.idealo.reactive.parent</groupId>
-        <artifactId>idealo-reactive-parent-pom</artifactId>
+        <groupId>org.idealo.parent</groupId>
+        <artifactId>idealo-parent-pom</artifactId>
         <version>0.0.1.RELEASE</version>
-        <relativePath>../idealo-reactive-parent-pom/pom.xml</relativePath> <!-- lookup parent from repository -->
+        <relativePath>../idealo-parent-pom/pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
