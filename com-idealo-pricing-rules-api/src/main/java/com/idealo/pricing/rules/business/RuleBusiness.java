@@ -2,6 +2,7 @@ package com.idealo.pricing.rules.business;
 
 import com.idealo.pricing.rules.entities.RuleEntity;
 import com.idealo.pricing.rules.exceptions.InvalidRequestException;
+import com.idealo.pricing.rules.exceptions.InvalidRuleRequestException;
 import com.idealo.pricing.rules.mapper.RuleEntityMapper;
 import com.idealo.pricing.rules.mapper.RuleInfoMapper;
 import com.idealo.pricing.rules.model.*;
@@ -82,7 +83,7 @@ public class RuleBusiness {
             throw new InvalidRequestException("Request cannot be null");
         }
         if (CollectionUtils.isEmpty(request.getRuleInfos())) {
-            throw new InvalidRequestException("Request [rules] cannot be empty");
+            throw new InvalidRuleRequestException("Request [rules] cannot be empty");
         }
     }
 
@@ -91,7 +92,7 @@ public class RuleBusiness {
             throw new InvalidRequestException("Request cannot be null");
         }
         if (CollectionUtils.isEmpty(request.getRuleInfoRequest())) {
-            throw new InvalidRequestException("Request [pricingRuleRequests] cannot be empty");
+            throw new InvalidRuleRequestException("Request [pricingRuleRequests] cannot be empty");
         }
     }
 }

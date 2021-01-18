@@ -27,7 +27,7 @@ import java.util.Optional;
 public class ExceptionsAdvice {
     @ExceptionHandler(value
             = {RuntimeException.class, IllegalStateException.class})
-    protected ResponseEntity<ResponseError> handleRuntimeException(
+    public ResponseEntity<ResponseError> handleRuntimeException(
             RuntimeException e, WebRequest request) {
         String error = Optional.of(e.getMessage()).orElse(e.getClass().getName())
                 + " [Internal server exception! => (RuntimeException)]";
@@ -38,7 +38,7 @@ public class ExceptionsAdvice {
     }
 
     @ExceptionHandler(InvalidProductException.class)
-    protected ResponseEntity<ResponseError> handleInvalidProductException(
+    public ResponseEntity<ResponseError> handleInvalidProductException(
             RuntimeException e, WebRequest request) {
         String error = Optional.of(e.getMessage()).orElse(e.getClass().getName())
                 + " [Bad product exception! => (InvalidProductException)]";
@@ -49,7 +49,7 @@ public class ExceptionsAdvice {
     }
 
     @ExceptionHandler(InvalidRequestException.class)
-    protected ResponseEntity<ResponseError> handleInvalidRequestException(
+    public ResponseEntity<ResponseError> handleInvalidRequestException(
             RuntimeException e, WebRequest request) {
         String error = Optional.of(e.getMessage()).orElse(e.getClass().getName())
                 + " [Bad request exception! => (InvalidRequestException)]";
@@ -60,7 +60,7 @@ public class ExceptionsAdvice {
     }
 
     @ExceptionHandler(StockOutOfBoundException.class)
-    protected ResponseEntity<ResponseError> handleStockOutOfBoundException(
+    public ResponseEntity<ResponseError> handleStockOutOfBoundException(
             RuntimeException e, WebRequest request) {
         String error = Optional.of(e.getMessage()).orElse(e.getClass().getName())
                 + " [Bad request exception! => (StockOutOfBoundException)]";

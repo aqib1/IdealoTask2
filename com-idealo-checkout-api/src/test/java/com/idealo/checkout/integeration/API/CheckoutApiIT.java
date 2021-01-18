@@ -5,6 +5,8 @@ import com.idealo.checkout.business.CheckoutBusiness;
 import com.idealo.checkout.clients.ProductClient;
 import com.idealo.checkout.clients.RuleInfoClient;
 import com.idealo.checkout.controller.CheckoutController;
+import com.idealo.checkout.controller.advice.ExceptionsAdvice;
+import com.idealo.checkout.exception.InvalidRequestException;
 import com.idealo.checkout.mappers.RuleInfoMapper;
 import com.idealo.checkout.model.CheckoutRequest;
 import com.idealo.checkout.model.RuleRequest;
@@ -58,7 +60,8 @@ public class CheckoutApiIT {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(controller)
+                .setControllerAdvice(new ExceptionsAdvice()).build();
     }
 
     @Test
@@ -82,5 +85,16 @@ public class CheckoutApiIT {
                 .andExpect(jsonPath("$.ruleInfoResponse[0].specialPrice").value(300))
                 .andExpect(jsonPath("$.ruleInfoResponse[0].detailedMessage").value("Free shipping for buying 5 items"));
 
+    }
+
+    @Test
+    public void testCheckoutForInvalidRequest() throws Exception {
+        this.mockMvc.perform(post(CHECKOUT_CHECK)
+                .content(asJsonString(invalidCheckoutRequest()))
+                .contentType(MEDIA_TYPE_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().is5xxServerError())
+                .andExpect(jsonPath("$.exceptionName").value("com.idealo.checkout.exception.InvalidRequestException"))
+        ;
     }
 }

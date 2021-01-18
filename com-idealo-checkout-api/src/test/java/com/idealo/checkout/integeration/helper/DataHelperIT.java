@@ -13,6 +13,10 @@ public class DataHelperIT {
         return new CheckoutRequest().checkoutInfo(Lists.newArrayList(new CheckoutInfo().checkoutQuantity(6l).sku("SKU")));
     }
 
+    public static CheckoutRequest invalidCheckoutRequest() {
+        return new CheckoutRequest();
+    }
+
     public static GetProductBySkuResponse getProductBySkuResponse() {
         return new GetProductBySkuResponse().productShortResponseList(
                 Lists.newArrayList(

@@ -4,14 +4,50 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.idealo.pricing.rules.data.RuleTypes;
 import com.idealo.pricing.rules.entities.RuleEntity;
+import com.idealo.pricing.rules.exceptions.InvalidRequestException;
+import com.idealo.pricing.rules.exceptions.InvalidRuleRequestException;
+import com.idealo.pricing.rules.exceptions.InvalidRuleTypeException;
 import com.idealo.pricing.rules.model.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
 
 public class DataHelper {
 
     public static MediaType MEDIA_TYPE_JSON_UTF8 = new MediaType("application", "json");
+    public static final WebRequest TEST_WEB_REQUEST = null;
+    public static final RuntimeException TEST_RUNTIME_EXC = new RuntimeException();
+
+    public static ResponseEntity<ResponseError> getHandleInvalidRuleTypeException() {
+        return new ResponseEntity<>(new ResponseError().createdAt("02/23/2020")
+                .detailedMessage(InvalidRuleTypeException.class.getName()).errorCode(HttpStatus.BAD_REQUEST.value())
+                .exceptionName(InvalidRuleTypeException.class.getName()).errorMessage("Error - Message"),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    public static ResponseEntity<ResponseError> getHandleInvalidRuleRequestException() {
+        return new ResponseEntity<>(new ResponseError().createdAt("02/23/2020")
+                .detailedMessage(InvalidRuleRequestException.class.getName()).errorCode(HttpStatus.BAD_REQUEST.value())
+                .exceptionName(InvalidRuleRequestException.class.getName()).errorMessage("Error - Message"),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    public static ResponseEntity<ResponseError> getHandleInvalidRequestException() {
+        return new ResponseEntity<>(new ResponseError().createdAt("02/23/2020")
+                .detailedMessage(InvalidRequestException.class.getName()).errorCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .exceptionName(InvalidRequestException.class.getName()).errorMessage("Error - Message"),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    public static ResponseEntity<ResponseError> getHandlerRuntimeException() {
+        return new ResponseEntity<>(new ResponseError().createdAt("02/23/2020")
+                .detailedMessage(IllegalStateException.class.getName()).errorCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .exceptionName(IllegalStateException.class.getName()).errorMessage("Error - Message"),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     public static AddRuleResponse addRuleResponse() {
         return new AddRuleResponse().message("Rule added successfully");

@@ -2,15 +2,51 @@ package com.idealo.product.utility;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.idealo.product.entities.ProductEntity;
+import com.idealo.product.exceptions.InvalidProductException;
+import com.idealo.product.exceptions.InvalidRequestException;
+import com.idealo.product.exceptions.StockOutOfBoundException;
 import com.idealo.product.model.*;
 import org.assertj.core.util.Lists;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
 
 public class DataHelper {
 
+    public static final WebRequest TEST_WEB_REQUEST = null;
+    public static final RuntimeException TEST_RUNTIME_EXC = new RuntimeException();
     public static MediaType MEDIA_TYPE_JSON_UTF8 = new MediaType("application", "json");
+
+    public static ResponseEntity<ResponseError> getHandleStockOutOfBoundException() {
+        return new ResponseEntity<>(new ResponseError().createdAt("02/23/2020")
+                .detailedMessage(StockOutOfBoundException.class.getName()).errorCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .exceptionName(StockOutOfBoundException.class.getName()).errorMessage("Error - Message"),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    public static ResponseEntity<ResponseError> getHandleInvalidRequestException() {
+        return new ResponseEntity<>(new ResponseError().createdAt("02/23/2020")
+                .detailedMessage(InvalidRequestException.class.getName()).errorCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .exceptionName(InvalidRequestException.class.getName()).errorMessage("Error - Message"),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    public static ResponseEntity<ResponseError> handleInvalidProductException() {
+        return new ResponseEntity<>(new ResponseError().createdAt("02/23/2020")
+                .detailedMessage(InvalidProductException.class.getName()).errorCode(HttpStatus.BAD_REQUEST.value())
+                .exceptionName(InvalidProductException.class.getName()).errorMessage("Error - Message"),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    public static ResponseEntity<ResponseError> getHandlerRuntimeException() {
+        return new ResponseEntity<>(new ResponseError().createdAt("02/23/2020")
+                .detailedMessage(IllegalStateException.class.getName()).errorCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .exceptionName(IllegalStateException.class.getName()).errorMessage("Error - Message"),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     public static DropProductsRequest invalidDropProductsRequest() {
         return new DropProductsRequest();
