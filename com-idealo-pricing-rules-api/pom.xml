@@ -12,13 +12,6 @@
         <version>0.0.1.RELEASE</version>
         <relativePath>../idealo-parent-pom/pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
-    <dependencies>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-    </dependencies>
     <build>
         <plugins>
             <plugin>

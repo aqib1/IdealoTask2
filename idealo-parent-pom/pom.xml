@@ -17,6 +17,8 @@
         <mapstruct.version>1.4.1.Final</mapstruct.version>
         <open.api.version>4.3.1</open.api.version>
         <open.pojo.version>0.8.3</open.pojo.version>
+        <junit4.version>4.13.1</junit4.version>
+        <junit.jupiter.version>5.7.0</junit.jupiter.version>
     </properties>
 
     <parent>
@@ -37,6 +39,27 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit4.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>

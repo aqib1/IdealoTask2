@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 public class AppUtils {
 
     private AppUtils() {
-
     }
 
     public static Map<String, Long> skuByQuantity(List<ProductShortResponse> productShortResponses) {

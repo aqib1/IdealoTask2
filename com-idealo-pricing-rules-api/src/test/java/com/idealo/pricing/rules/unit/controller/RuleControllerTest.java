@@ -8,10 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static com.idealo.pricing.rules.unit.utils.DataHelper.*;
+import static com.idealo.pricing.rules.utility.DataHelper.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class RuleControllerTest {
@@ -27,6 +27,7 @@ public class RuleControllerTest {
         ResponseEntity<RuleResponse> response = ruleController.pricingRules(ruleRequest());
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertEquals(response.getBody(), ruleResponse());
+        verify(ruleController, times(1)).pricingRules(ruleRequest());
     }
 
     @Test
@@ -36,6 +37,7 @@ public class RuleControllerTest {
         ResponseEntity<AddRuleResponse> response = ruleController.addRules(addRuleRequest());
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertEquals(response.getBody(), addRuleResponse());
+        verify(ruleController, times(1)).addRules(addRuleRequest());
     }
 
     @Test
@@ -44,6 +46,7 @@ public class RuleControllerTest {
         ResponseEntity<GetRulesResponse> response = ruleController.getAll();
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertEquals(response.getBody(), getRulesResponse());
+        verify(ruleController, times(1)).getAll();
     }
 
     @Test
@@ -53,6 +56,7 @@ public class RuleControllerTest {
         ResponseEntity<GetRulesResponse> response = ruleController.getBySku(getRulesBySkuRequest());
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertEquals(response.getBody(), getRulesResponse());
+        verify(ruleController, times(1)).getBySku(getRulesBySkuRequest());
     }
 
     @Test
@@ -62,6 +66,7 @@ public class RuleControllerTest {
         ResponseEntity<DropRulesResponse> response = ruleController.dropAll(dropRulesRequest());
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertEquals(response.getBody(), dropRulesResponse());
+        verify(ruleController, times(1)).dropAll(dropRulesRequest());
     }
 
 }

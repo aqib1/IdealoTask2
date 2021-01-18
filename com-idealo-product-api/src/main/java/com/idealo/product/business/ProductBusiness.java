@@ -78,7 +78,7 @@ public class ProductBusiness {
             throw new InvalidRequestException("Request cannot be null");
         }
         if(CollectionUtils.isEmpty(request.getSkuList())) {
-            throw new InvalidProductException("Request [sku] list cannot be empty or null");
+            throw new InvalidRequestException("Request [sku] list cannot be empty or null");
         }
     }
 

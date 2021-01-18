@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.idealo.pricing.rules.unit.utils.DataHelper.ruleEntity;
-import static com.idealo.pricing.rules.unit.utils.DataHelper.ruleInfoRequest;
+import static com.idealo.pricing.rules.utility.DataHelper.ruleEntity;
+import static com.idealo.pricing.rules.utility.DataHelper.ruleInfoRequest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class PercentageRuleTest {
@@ -24,5 +24,6 @@ public class PercentageRuleTest {
                 .thenReturn(10L);
 
         assertEquals(percentageRule.applyRule(ruleInfoRequest(), ruleEntity()), 10L);
+        verify(percentageRule, times(1)).applyRule(ruleInfoRequest(), ruleEntity());
     }
 }

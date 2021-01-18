@@ -7,12 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.idealo.pricing.rules.unit.utils.DataHelper.ruleEntity;
-import static com.idealo.pricing.rules.unit.utils.DataHelper.ruleInfoRequest;
+import static com.idealo.pricing.rules.utility.DataHelper.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.refEq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class BNGNRuleTest {
@@ -26,5 +24,6 @@ public class BNGNRuleTest {
                 .thenReturn(100L);
 
         assertEquals(bngnRule.applyRule(ruleInfoRequest(), ruleEntity()), 100L);
+        verify(bngnRule, times(1)).applyRule(ruleInfoRequest(), ruleEntity());
     }
 }

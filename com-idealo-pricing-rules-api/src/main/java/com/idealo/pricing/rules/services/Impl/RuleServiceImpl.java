@@ -32,8 +32,9 @@ public class RuleServiceImpl implements RuleService {
     @Override
     public RuleResponse pricingRules(RuleRequest request) {
         Map<String, RuleInfoRequest> ruleInfoBySku = ruleInfoMapBySku(request.getRuleInfoRequest());
-        Map<String, RuleEntity> ruleEntityBySku = ruleEntityBySku(repository.findAll(bySkuSpecification(
-                getSkuListFromRuleInfo(request.getRuleInfoRequest()))));
+        List<RuleEntity> ruleEntities = repository.findAll(bySkuSpecification(
+                getSkuListFromRuleInfo(request.getRuleInfoRequest())));
+        Map<String, RuleEntity> ruleEntityBySku = ruleEntityBySku(ruleEntities);
         var response = new RuleResponse();
         response.setRuleInfoResponse(Lists.newArrayList());
         prepareResponse(response, ruleInfoBySku, ruleEntityBySku);

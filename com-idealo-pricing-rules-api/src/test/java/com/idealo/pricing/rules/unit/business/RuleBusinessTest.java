@@ -7,12 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.idealo.pricing.rules.unit.utils.DataHelper.*;
+import static com.idealo.pricing.rules.utility.DataHelper.*;
+import static com.idealo.pricing.rules.utility.DataHelper.dropRulesRequestForNullSkuList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isNull;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class RuleBusinessTest {
@@ -26,6 +27,7 @@ public class RuleBusinessTest {
         RuleResponse response = ruleBusiness.pricingRules(ruleRequest());
         assertEquals(response.getTotal(), 5l);
         assertEquals(response.getRuleInfoResponse(), ruleResponse().getRuleInfoResponse());
+        verify(ruleBusiness, times(1)).pricingRules(ruleRequest());
     }
 
     @Test
@@ -34,6 +36,7 @@ public class RuleBusinessTest {
         assertThrows(InvalidRequestException.class, () -> {
             ruleBusiness.pricingRules(null);
         });
+        verify(ruleBusiness, times(1)).pricingRules(null);
     }
 
     @Test
@@ -43,6 +46,7 @@ public class RuleBusinessTest {
         assertThrows(InvalidRequestException.class, () -> {
             ruleBusiness.pricingRules(ruleRequestWithNullRuleInfo());
         });
+        verify(ruleBusiness, times(1)).pricingRules(ruleRequestWithNullRuleInfo());
     }
 
     @Test
@@ -51,6 +55,7 @@ public class RuleBusinessTest {
                 .thenReturn(addRuleResponse());
         AddRuleResponse response = ruleBusiness.addRules(addRuleRequest());
         assertEquals(response, addRuleResponse());
+        verify(ruleBusiness, times(1)).addRules(addRuleRequest());
     }
 
     @Test
@@ -60,6 +65,7 @@ public class RuleBusinessTest {
         assertThrows(InvalidRequestException.class, () -> {
             ruleBusiness.addRules(null);
         });
+        verify(ruleBusiness, times(1)).addRules(null);
     }
 
     @Test
@@ -69,6 +75,7 @@ public class RuleBusinessTest {
         assertThrows(InvalidRequestException.class, () -> {
             ruleBusiness.addRules(addRuleRequestWithNullRuleInfos());
         });
+        verify(ruleBusiness, times(1)).addRules(addRuleRequestWithNullRuleInfos());
     }
 
     @Test
@@ -77,6 +84,7 @@ public class RuleBusinessTest {
         GetRulesResponse getRulesResponse = ruleBusiness.getAll();
         assertEquals(getRulesResponse.getRuleInfos().size(), 1);
         assertEquals(getRulesResponse, getRulesResponse());
+        verify(ruleBusiness, times(1)).getAll();
     }
 
     @Test
@@ -86,6 +94,7 @@ public class RuleBusinessTest {
         GetRulesResponse getRulesResponse = ruleBusiness.getBySku(getRulesBySkuRequest());
         assertEquals(getRulesResponse.getRuleInfos().size(), 1);
         assertEquals(getRulesResponse, getRulesResponse());
+        verify(ruleBusiness, times(1)).getBySku(getRulesBySkuRequest());
     }
 
     @Test
@@ -94,6 +103,7 @@ public class RuleBusinessTest {
         assertThrows(InvalidRequestException.class, () -> {
             ruleBusiness.getBySku(null);
         });
+        verify(ruleBusiness, times(1)).getBySku(null);
     }
 
     @Test
@@ -102,6 +112,7 @@ public class RuleBusinessTest {
         assertThrows(InvalidRequestException.class, () -> {
             ruleBusiness.getBySku(getRulesBySkuRequestForNullSkuList());
         });
+        verify(ruleBusiness, times(1)).getBySku(getRulesBySkuRequestForNullSkuList());
     }
 
     @Test
@@ -110,6 +121,7 @@ public class RuleBusinessTest {
                 .thenReturn(dropRulesResponse());
         DropRulesResponse response = ruleBusiness.dropAll(dropRulesRequest());
         assertEquals(response, dropRulesResponse());
+        verify(ruleBusiness, times(1)).dropAll(dropRulesRequest());
     }
 
     @Test
@@ -120,6 +132,7 @@ public class RuleBusinessTest {
         assertThrows(InvalidRequestException.class, () -> {
             ruleBusiness.dropAll(null);
         });
+        verify(ruleBusiness, times(1)).dropAll(null);
     }
 
     @Test
@@ -130,5 +143,6 @@ public class RuleBusinessTest {
         assertThrows(InvalidRequestException.class, () -> {
             ruleBusiness.dropAll(dropRulesRequestForNullSkuList());
         });
+        verify(ruleBusiness, times(1)).dropAll(dropRulesRequestForNullSkuList());
     }
 }

@@ -9,7 +9,6 @@ import com.openpojo.validation.rule.impl.GetterMustExistRule;
 import com.openpojo.validation.test.impl.GetterTester;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
