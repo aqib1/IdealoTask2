@@ -2,3 +2,4 @@
 com-idealo-pricing-rules-api.iml
 /target/*
 /IdealoPricingRules/*
+derby.log
