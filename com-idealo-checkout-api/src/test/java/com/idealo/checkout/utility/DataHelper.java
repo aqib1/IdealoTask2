@@ -1,14 +1,26 @@
 package com.idealo.checkout.utility;
 
 import com.google.common.collect.Lists;
-import com.idealo.checkout.model.CheckoutInfo;
-import com.idealo.checkout.model.CheckoutRequest;
-import com.idealo.checkout.model.RuleInfoResponse;
-import com.idealo.checkout.model.RuleResponse;
+import com.idealo.checkout.model.*;
 
 import java.util.List;
 
 public class DataHelper {
+
+    public static List<ProductShortResponse> productShortResponseList() {
+        return org.assertj.core.util.Lists.newArrayList(productShortResponse());
+    }
+
+    public static ProductShortResponse productShortResponse() {
+        return new ProductShortResponse()
+                .productId("REX-A")
+                .sku("REXC")
+                .shipping(5l)
+                .quantity(10l)
+                .unitPrice(3l)
+                .detailedMessage("");
+    }
+
 
     public static RuleResponse ruleResponse() {
         return new RuleResponse().ruleInfoResponse(ruleInfoResponseList());
@@ -27,8 +39,24 @@ public class DataHelper {
                 .specialPrice(5l);
     }
 
+    public static List<RuleInfoRequest> getRuleInfoRequestList() {
+        return Lists.newArrayList(ruleInfoRequest());
+    }
+
+    public static RuleInfoRequest ruleInfoRequest() {
+        return new RuleInfoRequest()
+                .checkoutQuantity(1l)
+                .sku("ERAC")
+                .shipping(0l)
+                .unitPrice(5l);
+    }
+
     public static CheckoutRequest checkoutRequest() {
         return new CheckoutRequest().checkoutInfo(checkoutInfoList());
+    }
+
+    public static CheckoutRequest checkoutRequestInvalid() {
+        return new CheckoutRequest();
     }
 
     public static List<CheckoutInfo> checkoutInfoList() {

@@ -47,11 +47,11 @@ public class CheckoutServiceImpl implements CheckoutService {
         });
     }
 
-    public RuleResponse requestPricing(RuleRequest request) {
+    private RuleResponse requestPricing(RuleRequest request) {
         return ruleInfoClient.pricingRules(request);
     }
 
-    public GetProductBySkuResponse getProductsBySku(CheckoutRequest request) {
+    private GetProductBySkuResponse getProductsBySku(CheckoutRequest request) {
         return productClient.getAllBySku(request);
     }
 }

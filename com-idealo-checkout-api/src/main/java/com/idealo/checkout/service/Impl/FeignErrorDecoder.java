@@ -4,10 +4,12 @@ import com.idealo.checkout.exception.BadRequestException;
 import com.idealo.checkout.exception.InternalServiceException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
+import org.springframework.stereotype.Component;
 
 import static com.idealo.checkout.utils.AppConst.BAD_REQUEST;
 import static com.idealo.checkout.utils.AppConst.INTERNAL_SERVER_ERROR;
 
+@Component
 public class FeignErrorDecoder implements ErrorDecoder {
     @Override
     public Exception decode(String s, Response response) {
