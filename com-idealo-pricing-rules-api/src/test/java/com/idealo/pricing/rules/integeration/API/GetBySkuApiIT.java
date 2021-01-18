@@ -52,4 +52,15 @@ public class GetBySkuApiIT {
                 .andExpect(jsonPath("$.ruleInfos[1].isActive").value(true))
                 .andExpect(jsonPath("$.ruleInfos[0].sku").value("AEXC"));
     }
+
+    @Test
+    public void testGetBySkuForInvalidRequest() throws Exception {
+        this.mockMvc.perform(post(PRICING_RULE_GET_ALL_URL)
+                .content(asJsonString(getRulesBySkuRequestForGetBySkuInvalid()))
+                .contentType(MEDIA_TYPE_JSON_UTF8))
+                .andDo(print())
+                .andExpect(content().contentType(MEDIA_TYPE_JSON_UTF8))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.exceptionName").value("com.idealo.pricing.rules.exceptions.InvalidRequestException"));
+    }
 }

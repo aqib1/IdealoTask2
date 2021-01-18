@@ -56,4 +56,15 @@ public class PricingRulesApiIT {
                 .andExpect(jsonPath("$.ruleInfoResponse[2].sku").value("REXC"))
                 .andReturn();
     }
+
+    @Test
+    public void testPricingRulesForInvalidRequest() throws Exception {
+        this.mockMvc.perform(post(PRICING_RULE_API)
+                .content(asJsonString(ruleRequestForPricingRulesInvalid()))
+                .contentType(MEDIA_TYPE_JSON_UTF8))
+                .andDo(print())
+                .andExpect(content().contentType(MEDIA_TYPE_JSON_UTF8))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.exceptionName").value("com.idealo.pricing.rules.exceptions.InvalidRuleRequestException"));
+    }
 }

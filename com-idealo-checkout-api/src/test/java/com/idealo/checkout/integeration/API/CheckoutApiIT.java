@@ -6,7 +6,6 @@ import com.idealo.checkout.clients.ProductClient;
 import com.idealo.checkout.clients.RuleInfoClient;
 import com.idealo.checkout.controller.CheckoutController;
 import com.idealo.checkout.controller.advice.ExceptionsAdvice;
-import com.idealo.checkout.exception.InvalidRequestException;
 import com.idealo.checkout.mappers.RuleInfoMapper;
 import com.idealo.checkout.model.CheckoutRequest;
 import com.idealo.checkout.model.RuleRequest;

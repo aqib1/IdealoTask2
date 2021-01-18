@@ -13,8 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static com.idealo.pricing.rules.utility.DataHelper.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -44,4 +43,14 @@ public class DropAllApiIT {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void testDropAllForInvalidRequest() throws Exception {
+        this.mockMvc.perform(post(PRICING_RULE_DROP_ALL_URL)
+                .content(asJsonString(dropRulesRequestForDropAllInvalid()))
+                .contentType(MEDIA_TYPE_JSON_UTF8))
+                .andDo(print())
+                .andExpect(content().contentType(MEDIA_TYPE_JSON_UTF8))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.exceptionName").value("com.idealo.pricing.rules.exceptions.InvalidRequestException"));
+    }
 }

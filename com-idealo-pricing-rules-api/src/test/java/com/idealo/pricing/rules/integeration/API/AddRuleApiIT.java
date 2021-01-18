@@ -42,4 +42,15 @@ public class AddRuleApiIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("1 number of rules are successfully inserted"));
     }
+
+    @Test
+    public void testAddRuleForInvalidRequest() throws Exception {
+        this.mockMvc.perform(post(PRICING_RULE_ADD_API_URL)
+                .content(asJsonString(ruleRequestForAddRulesInvalid()))
+                .contentType(MEDIA_TYPE_JSON_UTF8))
+                .andDo(print())
+                .andExpect(content().contentType(MEDIA_TYPE_JSON_UTF8))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.exceptionName").value("com.idealo.pricing.rules.exceptions.InvalidRuleRequestException"));
+    }
 }

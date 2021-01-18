@@ -167,12 +167,24 @@ public class DataHelper {
         );
     }
 
+    public static GetRulesBySkuRequest getRulesBySkuRequestForGetBySkuInvalid() {
+        return new GetRulesBySkuRequest();
+    }
+
     public static RuleRequest ruleRequestForPricingRules() {
         return new RuleRequest().ruleInfoRequest(getAllInfoRequest());
     }
 
+    public static RuleRequest ruleRequestForPricingRulesInvalid() {
+        return new RuleRequest();
+    }
+
     public static AddRuleRequest ruleRequestForAddRules() {
         return new AddRuleRequest().ruleInfos(ruleInfoListForAddRules());
+    }
+
+    public static AddRuleRequest ruleRequestForAddRulesInvalid() {
+        return new AddRuleRequest();
     }
 
     public static List<RuleInfo> ruleInfoListForAddRules() {
@@ -188,6 +200,10 @@ public class DataHelper {
         return new DropRulesRequest().skuList(
                 Lists.newArrayList("GGXC", "PPXC")
         );
+    }
+
+    public static DropRulesRequest dropRulesRequestForDropAllInvalid() {
+        return new DropRulesRequest();
     }
 
     public static String asJsonString(final Object obj) {
