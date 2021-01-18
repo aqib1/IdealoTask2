@@ -1,6 +1,8 @@
 package com.idealo.checkout.utility;
 
 import com.google.common.collect.Lists;
+import com.idealo.checkout.clients.ProductClient;
+import com.idealo.checkout.clients.RuleInfoClient;
 import com.idealo.checkout.model.*;
 
 import java.util.List;
@@ -21,6 +23,27 @@ public class DataHelper {
                 .detailedMessage("");
     }
 
+    public static ProductClient productClient() {
+        return new ProductClient() {
+            @Override
+            public GetProductBySkuResponse getAllBySku(CheckoutRequest request) {
+                return null;
+            }
+        };
+    }
+
+    public static RuleInfoClient ruleInfoClient() {
+        return new RuleInfoClient() {
+            @Override
+            public RuleResponse pricingRules(RuleRequest request) {
+                return null;
+            }
+        };
+    }
+
+    public static RuleRequest ruleRequest() {
+        return new RuleRequest().ruleInfoRequest(getRuleInfoRequestList());
+    }
 
     public static RuleResponse ruleResponse() {
         return new RuleResponse().ruleInfoResponse(ruleInfoResponseList());
@@ -49,6 +72,11 @@ public class DataHelper {
                 .sku("ERAC")
                 .shipping(0l)
                 .unitPrice(5l);
+    }
+
+    public static GetProductBySkuResponse getProductBySkuResponse() {
+        return new GetProductBySkuResponse()
+                .productShortResponseList(productShortResponseList());
     }
 
     public static CheckoutRequest checkoutRequest() {
