@@ -44,4 +44,15 @@ public class AddProductApiIT {
                 .andExpect(jsonPath("$.productName").value("Olive oil"))
                 .andExpect(jsonPath("$.detailMessage").value("Product save successfully"));
     }
+
+    @Test
+    public void testAddProductApiForInvalidRequest() throws Exception {
+        this.mockMvc.perform(post(PRODUCT_ADD)
+                .content(asJsonString(addProductRequestInvalid()))
+                .contentType(MEDIA_TYPE_JSON_UTF8))
+                .andDo(print())
+                .andExpect(content().contentType(MEDIA_TYPE_JSON_UTF8))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.exceptionName").value("com.idealo.product.exceptions.InvalidProductException"));
+    }
 }

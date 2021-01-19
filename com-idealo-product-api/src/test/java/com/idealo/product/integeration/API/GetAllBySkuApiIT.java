@@ -43,11 +43,36 @@ public class GetAllBySkuApiIT {
                 .andDo(print())
                 .andExpect(content().contentType(MEDIA_TYPE_JSON_UTF8))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.productShortResponseList.*",hasSize(1)))
+                .andExpect(jsonPath("$.productShortResponseList.*", hasSize(1)))
                 .andExpect(jsonPath("$.productShortResponseList[0].sku").value("REXC"))
                 .andExpect(jsonPath("$.productShortResponseList[0].productId").value("REX-A"))
                 .andExpect(jsonPath("$.productShortResponseList[0].quantity").value(10))
                 .andExpect(jsonPath("$.productShortResponseList[0].unitPrice").value(3))
                 .andExpect(jsonPath("$.productShortResponseList[0].shipping").value(5));
     }
+
+    @Test
+    public void testGetAllBySkuForInvalidRequest() throws Exception {
+        this.mockMvc.perform(post(PRODUCT_GET_ALL)
+                .content(asJsonString(checkoutRequestInvalid()))
+                .contentType(MEDIA_TYPE_JSON_UTF8))
+                .andDo(print())
+                .andExpect(content().contentType(MEDIA_TYPE_JSON_UTF8))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.exceptionName").value("com.idealo.product.exceptions.InvalidRequestException"));
+    }
+
+
+    @Test
+    public void testGetAllBySkuForOutOfStock() throws Exception {
+        dbHelper.initProductEntitiesList();
+        this.mockMvc.perform(post(PRODUCT_GET_ALL)
+                .content(asJsonString(checkoutRequestOutOfStock()))
+                .contentType(MEDIA_TYPE_JSON_UTF8))
+                .andDo(print())
+                .andExpect(content().contentType(MEDIA_TYPE_JSON_UTF8))
+                .andExpect(status().is5xxServerError())
+                .andExpect(jsonPath("$.exceptionName").value("com.idealo.product.exceptions.StockOutOfBoundException"));
+    }
+
 }

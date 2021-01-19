@@ -71,6 +71,23 @@ public class DataHelper {
           Lists.newArrayList(checkoutInfo())
         );
     }
+
+    public static CheckoutRequest checkoutRequestOutOfStock() {
+        return new CheckoutRequest().checkoutInfo(
+                Lists.newArrayList(checkoutInfoOutOfStock())
+        );
+    }
+
+    public static CheckoutInfo checkoutInfoOutOfStock() {
+        return new CheckoutInfo()
+                .checkoutQuantity(10000l)
+                .sku("REXC");
+    }
+
+    public static CheckoutRequest checkoutRequestInvalid() {
+        return new CheckoutRequest();
+    }
+
     public static GetProductBySkuResponse getProductBySkuResponse() {
         return new GetProductBySkuResponse().productShortResponseList(
                 Lists.newArrayList(productShortResponse())
@@ -101,6 +118,10 @@ public class DataHelper {
         return new DropProductsRequest().skuList(
                 Lists.newArrayList("OOXC")
         );
+    }
+
+    public static DropProductsRequest dropProductsRequestForDropApiInvalid() {
+        return new DropProductsRequest();
     }
 
     public static ProductEntity productEntity() {
@@ -159,6 +180,10 @@ public class DataHelper {
                 .unitPrice(20L)
                 .quantity(40l)
                 .supplierName("John");
+    }
+
+    public static AddProductRequest addProductRequestInvalid() {
+        return new AddProductRequest();
     }
 
     public static AddProductResponse addProductResponse() {

@@ -44,4 +44,15 @@ public class DropAllApiIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.detailMessage").value("Products dropped successfully"));
     }
+
+    @Test
+    public void testDropAllForInvalidRequest() throws Exception {
+        this.mockMvc.perform(post(PRODUCT_DROP_ALL)
+                .content(asJsonString(dropProductsRequestForDropApiInvalid()))
+                .contentType(MEDIA_TYPE_JSON_UTF8))
+                .andDo(print())
+                .andExpect(content().contentType(MEDIA_TYPE_JSON_UTF8))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.exceptionName").value("com.idealo.product.exceptions.InvalidRequestException"));
+    }
 }
